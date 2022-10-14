@@ -1,4 +1,4 @@
-class Category{
+export class Category{
     /**
      * @param {string} name
      * @param {string} color
