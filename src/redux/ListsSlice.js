@@ -28,6 +28,6 @@ export const listsDataSlice = createSlice({
     },
 })
 
-export const { addCategory, initializeCategoriesFromServer, addItem, initializeItemsFromServer, updateCategory } = listsDataSlece.actions
+export const { addCategory, initializeCategoriesFromServer, addItem, initializeItemsFromServer, updateCategory } = listsDataSlice.actions
 
 export default listsDataSlice.reducer
