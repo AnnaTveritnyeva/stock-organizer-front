@@ -1,89 +1,51 @@
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import axios from "axios";
-import React, { useState } from 'react';
-import CircularProgress from '@mui/material/CircularProgress';
-import { Box, Container, Typography } from '@mui/material';
+import React from 'react';
+import { Box, Typography } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import AddCategoryForm from '../forms/AddCategoryForm';
-import { Category } from '../model/Category.js';
+import _ from 'underscore';
+import store from 'redux/store';
+import './Lists.modules.css'
+import CategoryComponent from './CategoryComponent';
 
 
 function Lists() {
-    const [loading, setLoading] = useState(true);
-    const [items, setItems] = useState([]);
-    const categories = new Set();
+    // @ts-ignore
+    const items = store.getState().lists.items;
+    // @ts-ignore
+    const categories = store.getState().lists.categories;
+
 
     //For adding category modal 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    function getItems() {
-        axios.get("http://localhost:8080/items/getAllItems")
-            .then(response => {
-                setItems(response.data)
-                setLoading(false)
-            })
-            .catch(err => { console.log(err) });
-    }
+    return (
+        <div className="List">
+            <AddCircleOutlineIcon onClick={handleOpen} />
+            <Modal
+                className={"modal"}
+                open={open}
+                onClose={handleClose}
+            >
+                <Box sx={{ backgroundColor: 'white' }}>
+                    <AddCategoryForm />
+                </Box>
+            </Modal>
 
-    function setCategories() {
-        items.map(item =>
-            categories.add(new Category(item.organizationHierarchy[0].name, item.organizationHierarchy[0].color))
-        )
-    }
+            <Typography variant='h4'>
+                {/* add user greeting */}
+                Hello, Anna Tveritnyeva
+            </Typography>
 
-    function getCategories() {
-        const renderedCategories = [];
-
-        categories.forEach((key, value) => {
-            renderedCategories.push(
-                <Typography key={key} color={value.color}>
-                    {value.name}
-                </Typography>
-            )
-        });
-
-        return renderedCategories;
-    }
-
-    if (!loading) {
-        return (
-            <div className="Lists" >
-                {setCategories()}
-                <AddCircleOutlineIcon onClick={handleOpen} />
-
-                <Modal
-                    className={"modal"}
-                    open={open}
-                    onClose={handleClose}
-                >
-                    <Box sx={{ backgroundColor: 'white' }}>
-                        <AddCategoryForm />
-                    </Box>
-                </Modal>
-
-                <Typography variant='h4'>
-                    {/* add user greeting */}
-                    Hello, Anna Tveritnyeva
-                </Typography>
-
-                <Container>
-                    {getCategories()}
-                </Container>
-
+            <div className='categories-container' >
+                {categories.map(category =>
+                    <CategoryComponent key={category.id} category={category} />
+                )}
             </div>
-        );
-    }
-    else {
-        return (
-            //loading === true? call axios method. (will call axios method on every page reload)
-            <div>
-                <CircularProgress />
-                {getItems()}
-            </div>
-        )
-    }
+        </div>
+    );
 }
 
 export default Lists;
