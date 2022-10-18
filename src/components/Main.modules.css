@@ -1,0 +1,9 @@
+.tab {
+    font-size: 40px;
+}
+
+.header {
+    background-color: rgb(84, 84, 84);
+    display: flex;
+    justify-content: center;
+}
