@@ -62,16 +62,6 @@
     margin-top: 20px;
 }
 
-.item {
-    display: flex;
-    align-items: center;
-    width: 100%;
-}
-
-.item-container {
-    display: flex;
-}
-
 .add-icon {
     display: flex;
     justify-content: end;

@@ -1,12 +1,10 @@
-import { Box, Checkbox, Modal, Typography } from "@mui/material";
-import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
-import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlined';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { Box, Modal, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AddItemForm from "forms/AddItemForm";
 import AddIcon from '@mui/icons-material/Add';
 import "./SectionComponent.modules.css"
+import ItemComponent from "./ItemComponent";
 
 function SectionComponent(props) {
     const category = props.category
@@ -66,20 +64,7 @@ function SectionComponent(props) {
                             {section.name.toUpperCase()}
                         </Typography>
                         {items.map(item =>
-                            <div className={'item-container'} key={item.id}>
-                                <Checkbox checked={item.missing}
-                                    sx={{
-                                        height: '100%', '&.Mui-checked': {
-                                            color: section.color
-                                        }
-                                    }} icon={<ShoppingBasketOutlinedIcon />} checkedIcon={<ShoppingBasketIcon />} />
-                                <div className="item" >
-                                    <Typography sx={{ borderBottom: '1.5px solid black', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <span >{item.name}</span>
-                                        <InfoOutlinedIcon sx={{ color: 'rgb(102,102,102)', fontSize: 'inherit' }} />
-                                    </Typography>
-                                </div>
-                            </div>
+                            <ItemComponent item={item} section={section}/>
                         )}
                     </div>
                 </div>
