@@ -2,9 +2,14 @@ import { Button, TextField, Typography } from '@mui/material';
 import { useForm } from "react-hook-form";
 import CircleIcon from '@mui/icons-material/Circle';
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { addCategory } from 'redux/ListsSlice';
+import axios from 'axios';
 
 function AddCategoryForm() {
     const { register, setValue, handleSubmit } = useForm();
+    const dispatch = useDispatch()
+
     const colors = [
         "rgb(235, 78, 62)",
         "rgb(241,154,56)",
@@ -21,10 +26,12 @@ function AddCategoryForm() {
     ]
 
     const onSubmit = (data) => {
-        //todo: push the category to the redux store
-        console.log(data)
+        data.sections = []
+        axios.post("http://localhost:8080/categories/addCategory", data)
+            .then(response => dispatch(addCategory(response.data)))
+            .catch(err => console.log(err))
     }
-    
+
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <Typography>
@@ -38,14 +45,13 @@ function AddCategoryForm() {
                 Color:
             </Typography>
             {colors.map(color =>
-                <CircleIcon sx={{ color: color }} onClick={() => setValue("color", color)} />
+                <CircleIcon key={color} sx={{ color: color }} onClick={() => setValue("color", color)} />
             )}
             {/* onClick = should close. 
                 todo: figure out a way to pass the data to the Modal component */}
             <Button > Cancel </Button>
             <Button type="submit"> Save </Button>
         </form>
-
     );
 }
 
