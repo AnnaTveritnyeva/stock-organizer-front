@@ -22,12 +22,16 @@ export const listsDataSlice = createSlice({
             state.items = [];
             state.items = state.items.concat(items.payload);
         },
-        updateCategory: (state, categoryToUpdate, updatedCategory) => {
-            state.categories[state.categories.indexOf(categoryToUpdate.payload)] = updatedCategory
+        updateCategory: (state, category) => {
+            state.categories[state.categories.indexOf(category.payload.toUpdate)] = category.payload.updated
         },
+        updateItem: (state, item) => {
+            state.items[state.items.indexOf(item.payload.toUpdate)] = item.payload.updated
+        }
     },
 })
 
-export const { addCategory, initializeCategoriesFromServer, addItem, initializeItemsFromServer, updateCategory } = listsDataSlice.actions
+export const { addCategory, initializeCategoriesFromServer, addItem, initializeItemsFromServer, updateCategory,
+    updateItem } = listsDataSlice.actions
 
 export default listsDataSlice.reducer
