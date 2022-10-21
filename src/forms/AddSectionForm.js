@@ -2,13 +2,9 @@ import { Button, TextField, Typography } from '@mui/material';
 import { useForm } from "react-hook-form";
 import CircleIcon from '@mui/icons-material/Circle';
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { updateCategory } from 'redux/ListsSlice';
-import axios from 'axios';
 
 function AddSectionForm(props) {
     const { register, setValue, handleSubmit } = useForm();
-    const dispatch = useDispatch()
 
     const colors = [
         "rgb(235, 78, 62)",
@@ -27,9 +23,7 @@ function AddSectionForm(props) {
 
     const onSubmit = (data) => {
         data.items = []
-        axios.post("http://localhost:8080/categories/addSection?categoryId=" + props.category.id, data)
-            .then(response => dispatch(updateCategory(response.data)))
-            .catch(err => console.log(err))
+        props.onSubmitAddSection(data)
     }
 
     return (
