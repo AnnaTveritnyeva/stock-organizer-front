@@ -5,19 +5,21 @@ import AddItemForm from "forms/AddItemForm";
 import AddIcon from '@mui/icons-material/Add';
 import "./SectionComponent.modules.css"
 import ItemComponent from "./ItemComponent";
+import { useDispatch } from "react-redux";
+import { addItem } from "redux/ListsSlice";
 
 function SectionComponent(props) {
     const category = props.category
     const section = props.section
     const [items, setItems] = useState([])
     const [loading, setLoading] = useState(true)
+    const dispatch = useDispatch()
 
     //For adding section modal 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => {
         setOpen(false)
-        window.location.reload();
     };
 
     const styles = {
@@ -33,6 +35,16 @@ function SectionComponent(props) {
         axios.get('http://localhost:8080/items/getItemsBySection/{section}?section=' + section.name)
             .then(response => {
                 setItems(response.data)
+                setLoading(false)
+            })
+            .catch(err => console.log(err))
+    }
+
+    function onSubmitAddItem(data) {
+        setLoading(true)
+        axios.post("http://localhost:8080/items/addItem", data)
+            .then(response => {
+                dispatch(addItem(response.data))
                 setLoading(false)
             })
             .catch(err => console.log(err))
@@ -64,7 +76,7 @@ function SectionComponent(props) {
                             {section.name.toUpperCase()}
                         </Typography>
                         {items.map(item =>
-                            <ItemComponent item={item} section={section}/>
+                            <ItemComponent key={item.id} item={item} section={section} />
                         )}
                     </div>
                 </div>
@@ -73,7 +85,7 @@ function SectionComponent(props) {
                 open={open}
                 onClose={handleClose}>
                 <Box sx={{ backgroundColor: 'white' }}>
-                    <AddItemForm category={category} section={section} />
+                    <AddItemForm category={category} section={section} onSubmitAddItem={onSubmitAddItem} />
                 </Box>
             </Modal>
         </div>

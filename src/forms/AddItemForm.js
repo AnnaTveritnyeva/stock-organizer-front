@@ -1,20 +1,13 @@
 import { Button, Checkbox, TextField, Typography } from '@mui/material';
 import { useForm } from "react-hook-form";
-import CircleIcon from '@mui/icons-material/Circle';
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { addItem } from 'redux/ListsSlice';
-import axios from 'axios';
 
 function AddItemForm(props) {
     const { register, setValue, handleSubmit } = useForm();
-    const dispatch = useDispatch()
     const [missing, setMissing] = useState(false)
 
     const onSubmit = (data) => {
-        axios.post("http://localhost:8080/items/addItem", data)
-            .then(response => dispatch(addItem(response.data)))
-            .catch(err => console.log(err))
+        props.onSubmitAddItem(data)
     }
 
     return (
