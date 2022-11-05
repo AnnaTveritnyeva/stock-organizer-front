@@ -1,0 +1,32 @@
+input {
+    font-family: 'Balsamiq Sans';
+    background: inherit;
+    border: 0;
+}
+
+.item-name input {
+    font-size: 1.5rem;
+    font-weight: 800;
+    width: 100%;
+    margin-bottom: 15%;
+}
+
+.store-info,
+.purchase-history {
+    display: flex;
+}
+
+.purchase-history {
+    justify-content: space-between;
+}
+
+.store-info input {
+    width: 50%;
+}
+
+.buttons {
+    display: flex;
+    justify-content: end;
+    position: absolute;
+    bottom: 0;
+}
