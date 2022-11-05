@@ -3,7 +3,7 @@ import './ItemComponent.modules.css'
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { Checkbox, ClickAwayListener, Popper, Typography } from "@mui/material";
+import { Checkbox, Popper, Typography } from "@mui/material";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { updateItem } from "redux/ListsSlice";
@@ -58,9 +58,7 @@ function ItemComponent(props) {
             </div>
 
             <Popper open={open} anchorEl={anchorEl} placement={'right'} >
-                <ClickAwayListener onClickAway={handleClose}>
-                    <ItemInfoPopper item={item} />
-                </ClickAwayListener>
+                <ItemInfoPopper item={item} handleClose={handleClose} />
             </Popper>
         </div>
     )
